@@ -1,7 +1,15 @@
+using BookShop.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+
+builder.Services.AddMvc();
+builder.Services.AddDbContext<BookDbContext>(option =>
+{
+    option.UseSqlServer("Server=.;Database = BookDb;Integrated Security = True;");
+});
 
 var app = builder.Build();
 
@@ -22,6 +30,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Book}/{action=List}/{id?}");
 
 app.Run();
